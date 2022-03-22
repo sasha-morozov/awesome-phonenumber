@@ -1,54 +1,54 @@
 goog.require('i18n.phonenumbers.AsYouTypeFormatter');
-goog.require('i18n.phonenumbers.PhoneNumberFormat');
+// goog.require('i18n.phonenumbers.PhoneNumberFormat');
 goog.require('i18n.phonenumbers.PhoneNumberType');
 goog.require('i18n.phonenumbers.PhoneNumberUtil');
 goog.require('i18n.phonenumbers.PhoneNumberUtil.ValidationResult');
 
 const PhoneNumberType = i18n.phonenumbers.PhoneNumberType;
-const PhoneNumberFormat = i18n.phonenumbers.PhoneNumberFormat;
+// const PhoneNumberFormat = i18n.phonenumbers.PhoneNumberFormat;
 const ValidationResult = i18n.phonenumbers.PhoneNumberUtil.ValidationResult;
 const AsYouTypeFormatter = i18n.phonenumbers.AsYouTypeFormatter;
 const PhoneNumberUtil = i18n.phonenumbers.PhoneNumberUtil;
 
 const phoneUtil = PhoneNumberUtil.getInstance( );
 
-function getNumberType( number )
-{
-	switch( phoneUtil.getNumberType( number ) )
-	{
-		case PhoneNumberType.FIXED_LINE:           return 'fixed-line';
-		case PhoneNumberType.FIXED_LINE_OR_MOBILE: return 'fixed-line-or-mobile';
-		case PhoneNumberType.MOBILE:               return 'mobile';
-		case PhoneNumberType.PAGER:                return 'pager';
-		case PhoneNumberType.PERSONAL_NUMBER:      return 'personal-number';
-		case PhoneNumberType.PREMIUM_RATE:         return 'premium-rate';
-		case PhoneNumberType.SHARED_COST:          return 'shared-cost';
-		case PhoneNumberType.TOLL_FREE:            return 'toll-free';
-		case PhoneNumberType.UAN:                  return 'uan';
-		case PhoneNumberType.VOIP:                 return 'voip';
-		default:
-		case PhoneNumberType.UNKNOWN:              return 'unknown';
-	}
-}
+// function getNumberType( number )
+// {
+// 	switch( phoneUtil.getNumberType( number ) )
+// 	{
+// 		case PhoneNumberType.FIXED_LINE:           return 'fixed-line';
+// 		case PhoneNumberType.FIXED_LINE_OR_MOBILE: return 'fixed-line-or-mobile';
+// 		case PhoneNumberType.MOBILE:               return 'mobile';
+// 		case PhoneNumberType.PAGER:                return 'pager';
+// 		case PhoneNumberType.PERSONAL_NUMBER:      return 'personal-number';
+// 		case PhoneNumberType.PREMIUM_RATE:         return 'premium-rate';
+// 		case PhoneNumberType.SHARED_COST:          return 'shared-cost';
+// 		case PhoneNumberType.TOLL_FREE:            return 'toll-free';
+// 		case PhoneNumberType.UAN:                  return 'uan';
+// 		case PhoneNumberType.VOIP:                 return 'voip';
+// 		default:
+// 		case PhoneNumberType.UNKNOWN:              return 'unknown';
+// 	}
+// }
 
-function toNumberType( exportedName )
-{
-	switch( exportedName )
-	{
-		case 'fixed-line':           return PhoneNumberType.FIXED_LINE;
-		case 'fixed-line-or-mobile': return PhoneNumberType.FIXED_LINE_OR_MOBILE;
-		case 'mobile':               return PhoneNumberType.MOBILE;
-		case 'pager':                return PhoneNumberType.PAGER;
-		case 'personal-number':      return PhoneNumberType.PERSONAL_NUMBER;
-		case 'premium-rate':         return PhoneNumberType.PREMIUM_RATE;
-		case 'shared-cost':          return PhoneNumberType.SHARED_COST;
-		case 'toll-free':            return PhoneNumberType.TOLL_FREE;
-		case 'uan':                  return PhoneNumberType.UAN;
-		case 'voip':                 return PhoneNumberType.VOIP;
-		default:
-		case 'unknown':              return PhoneNumberType.UNKNOWN;
-	}
-}
+// function toNumberType( exportedName )
+// {
+// 	switch( exportedName )
+// 	{
+// 		case 'fixed-line':           return PhoneNumberType.FIXED_LINE;
+// 		case 'fixed-line-or-mobile': return PhoneNumberType.FIXED_LINE_OR_MOBILE;
+// 		case 'mobile':               return PhoneNumberType.MOBILE;
+// 		case 'pager':                return PhoneNumberType.PAGER;
+// 		case 'personal-number':      return PhoneNumberType.PERSONAL_NUMBER;
+// 		case 'premium-rate':         return PhoneNumberType.PREMIUM_RATE;
+// 		case 'shared-cost':          return PhoneNumberType.SHARED_COST;
+// 		case 'toll-free':            return PhoneNumberType.TOLL_FREE;
+// 		case 'uan':                  return PhoneNumberType.UAN;
+// 		case 'voip':                 return PhoneNumberType.VOIP;
+// 		default:
+// 		case 'unknown':              return PhoneNumberType.UNKNOWN;
+// 	}
+// }
 
 function getValidationResult( number )
 {
@@ -202,13 +202,13 @@ export function PhoneNumber( phoneNumber, regionCode )
 	}
 
 	this._json[ 'number' ][ 'international' ] =
-		phoneUtil.format( this._number, PhoneNumberFormat.INTERNATIONAL );
+		phoneUtil.format( this._number, 1 );
 	this._json[ 'number' ][ 'national' ] =
-		phoneUtil.format( this._number, PhoneNumberFormat.NATIONAL );
+		phoneUtil.format( this._number, 2 );
 	this._json[ 'number' ][ 'e164' ] =
-		phoneUtil.format( this._number, PhoneNumberFormat.E164 );
+		phoneUtil.format( this._number, 0 );
 	this._json[ 'number' ][ 'rfc3966' ] =
-		phoneUtil.format( this._number, PhoneNumberFormat.RFC3966 );
+		phoneUtil.format( this._number, 3 );
 	this._json[ 'number' ][ 'significant' ] =
 		phoneUtil.getNationalSignificantNumber( this._number );
 
@@ -218,7 +218,7 @@ export function PhoneNumber( phoneNumber, regionCode )
 	this._json[ 'possible' ] = phoneUtil.isPossibleNumber( this._number );
 	this._json[ 'valid' ] = phoneUtil.isValidNumber( this._number );
 
-	this._json[ 'type' ] = getNumberType( self._number );
+	this._json[ 'type' ] = phoneUtil.getNumberType( number ).toLowerCase().replace('_', '-');
 
 	this._json[ 'possibility' ] = getValidationResult( self._number );
 }
@@ -232,8 +232,8 @@ PhoneNumber.getCountryCodeForRegionCode = function( regionCode )
 /** @export */
 PhoneNumber.getRegionCodeForCountryCode = function( countryCode )
 {
-	var regionCode = phoneUtil.getRegionCodeForCountryCode( countryCode );
-	return regionCode;
+	return phoneUtil.getRegionCodeForCountryCode( countryCode );
+	// return regionCode;
 }
 
 function uniq( arr )
@@ -263,12 +263,16 @@ PhoneNumber.getSupportedCallingCodes = function( )
 /** @export */
 PhoneNumber.getExample = function( regionCode, type /* = null */ )
 {
-	var example;
-	if ( !type )
-		example = phoneUtil.getExampleNumber( regionCode );
-	else
-		example = phoneUtil.getExampleNumberForType(
-			regionCode, toNumberType( type ) );
+	// var example;
+	// if ( !type )
+	// 	example = phoneUtil.getExampleNumber( regionCode );
+	// else
+	// 	example = phoneUtil.getExampleNumberForType(
+	// 		regionCode, type.toUpperCase().replace('-', '_') );
+
+  const example = !type
+    ? phoneUtil.getExampleNumber( regionCode )
+    : phoneUtil.getExampleNumberForType(regionCode, type.toUpperCase().replace('-', '_'));
 
 	return new PhoneNumber( example, regionCode );
 }
@@ -277,7 +281,7 @@ PhoneNumber.getExample = function( regionCode, type /* = null */ )
 PhoneNumber.getAsYouType = function( regionCode )
 {
 	return new AsYouType( regionCode );
-}
+} // redundant
 
 /** @export */
 PhoneNumber.prototype.toJSON = function( )
@@ -350,8 +354,8 @@ PhoneNumber.prototype.getRegionCode = function( )
 /** @export */
 PhoneNumber.prototype.getCountryCode = function( )
 {
-	const regionCode = this._json[ 'regionCode' ];
-	return PhoneNumber.getCountryCodeForRegionCode( regionCode );
+	// const regionCode = this._json[ 'regionCode' ];
+	return PhoneNumber.getCountryCodeForRegionCode( this._json[ 'regionCode' ] );
 }
 
 

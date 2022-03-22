@@ -13,6 +13,7 @@ describe( 'general', function( ) {
 		expect( pn.getNumber( 'significant' ) ).to.equal( '707123456' );
 		expect( pn.canBeInternationallyDialled( ) ).to.equal( true );
 		expect( pn.toJSON( ).canBeInternationallyDialled ).to.equal( true );
+    expect(pn.getType()).to.equal('mobile')
 	} );
 
 	it( 'should be able to create an example phone number', function( ) {

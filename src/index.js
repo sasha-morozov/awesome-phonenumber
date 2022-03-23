@@ -1,4 +1,4 @@
-goog.require('i18n.phonenumbers.AsYouTypeFormatter');
+// goog.require('i18n.phonenumbers.AsYouTypeFormatter');
 // goog.require('i18n.phonenumbers.PhoneNumberFormat');
 goog.require('i18n.phonenumbers.PhoneNumberType');
 goog.require('i18n.phonenumbers.PhoneNumberUtil');
@@ -7,7 +7,7 @@ goog.require('i18n.phonenumbers.PhoneNumberUtil.ValidationResult');
 const PhoneNumberType = i18n.phonenumbers.PhoneNumberType;
 // const PhoneNumberFormat = i18n.phonenumbers.PhoneNumberFormat;
 const ValidationResult = i18n.phonenumbers.PhoneNumberUtil.ValidationResult;
-const AsYouTypeFormatter = i18n.phonenumbers.AsYouTypeFormatter;
+// const AsYouTypeFormatter = i18n.phonenumbers.AsYouTypeFormatter;
 const PhoneNumberUtil = i18n.phonenumbers.PhoneNumberUtil;
 
 const phoneUtil = PhoneNumberUtil.getInstance( );
@@ -218,7 +218,7 @@ export function PhoneNumber( phoneNumber, regionCode )
 	this._json[ 'possible' ] = phoneUtil.isPossibleNumber( this._number );
 	this._json[ 'valid' ] = phoneUtil.isValidNumber( this._number );
 
-	this._json[ 'type' ] = phoneUtil.getNumberType( number ).toLowerCase().replace('_', '-');
+	this._json[ 'type' ] = phoneUtil.getNumberType( this._number ).toLowerCase().replace('_', '-');
 
 	this._json[ 'possibility' ] = getValidationResult( self._number );
 }
@@ -278,10 +278,10 @@ PhoneNumber.getExample = function( regionCode, type /* = null */ )
 }
 
 /** @export */
-PhoneNumber.getAsYouType = function( regionCode )
-{
-	return new AsYouType( regionCode );
-} // redundant
+// PhoneNumber.getAsYouType = function( regionCode )
+// {
+// 	return new AsYouType( regionCode );
+// } // redundant
 
 /** @export */
 PhoneNumber.prototype.toJSON = function( )
@@ -363,51 +363,51 @@ PhoneNumber.prototype.getCountryCode = function( )
  * The AsYouType class.
  * @constructor
  */
-function AsYouType( regionCode )
-{
-	this._regionCode = regionCode;
-	this._aytf = new AsYouTypeFormatter( regionCode );
-	this._rawInput = '';
-	this._number = '';
-}
+// function AsYouType( regionCode )
+// {
+// 	this._regionCode = regionCode;
+// 	this._aytf = new AsYouTypeFormatter( regionCode );
+// 	this._rawInput = '';
+// 	this._number = '';
+// }
 
-/** @export */
-AsYouType.prototype.addChar = function( nextChar )
-{
-	this._rawInput += nextChar;
-	this._number = this._aytf.inputDigit( nextChar );
-	return this._number;
-}
+// /** @export */
+// AsYouType.prototype.addChar = function( nextChar )
+// {
+// 	this._rawInput += nextChar;
+// 	this._number = this._aytf.inputDigit( nextChar );
+// 	return this._number;
+// }
 
-/** @export */
-AsYouType.prototype.number = function( )
-{
-	return this._number;
-}
+// /** @export */
+// AsYouType.prototype.number = function( )
+// {
+// 	return this._number;
+// }
 
-/** @export */
-AsYouType.prototype.removeChar = function( )
-{
-	if ( this._rawInput === '' )
-		return this._number;
+// /** @export */
+// AsYouType.prototype.removeChar = function( )
+// {
+// 	if ( this._rawInput === '' )
+// 		return this._number;
 
-	return this.reset( this._rawInput.slice( 0, this._rawInput.length - 1 ) );
-}
+// 	return this.reset( this._rawInput.slice( 0, this._rawInput.length - 1 ) );
+// }
 
-/** @export */
-AsYouType.prototype.reset = function( number /* = '' */ )
-{
-	this._aytf.clear( );
-	this._rawInput = '';
-	this._number = '';
-	if ( number )
-		for ( var i = 0, n = number.length; i < n; ++i )
-			this.addChar( number.charAt( i ) );
-	return this._number;
-}
+// /** @export */
+// AsYouType.prototype.reset = function( number /* = '' */ )
+// {
+// 	this._aytf.clear( );
+// 	this._rawInput = '';
+// 	this._number = '';
+// 	if ( number )
+// 		for ( var i = 0, n = number.length; i < n; ++i )
+// 			this.addChar( number.charAt( i ) );
+// 	return this._number;
+// }
 
-/** @export */
-AsYouType.prototype.getPhoneNumber = function( )
-{
-	return new PhoneNumber( this._number, this._regionCode );
-}
+// /** @export */
+// AsYouType.prototype.getPhoneNumber = function( )
+// {
+// 	return new PhoneNumber( this._number, this._regionCode );
+// }

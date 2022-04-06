@@ -282,7 +282,10 @@ PhoneNumber.getExample = function( regionCode, type /* = null */ )
 /** @export */
 PhoneNumber.prototype.toJSON = function( )
 {
-	return this._json;
+  const tempNumberObject = this._json[ 'number' ];
+  delete this._json[ 'number' ];
+
+	return Object.assign(tempNumberObject, this._json);
 }
 
 /** @export */
@@ -353,57 +356,3 @@ PhoneNumber.prototype.getCountryCode = function( )
 	// const regionCode = this._json[ 'regionCode' ];
 	return PhoneNumber.getCountryCodeForRegionCode( this._json[ 'regionCode' ] );
 }
-
-
-/**
- * The AsYouType class.
- * @constructor
- */
-// function AsYouType( regionCode )
-// {
-// 	this._regionCode = regionCode;
-// 	this._aytf = new AsYouTypeFormatter( regionCode );
-// 	this._rawInput = '';
-// 	this._number = '';
-// }
-
-// /** @export */
-// AsYouType.prototype.addChar = function( nextChar )
-// {
-// 	this._rawInput += nextChar;
-// 	this._number = this._aytf.inputDigit( nextChar );
-// 	return this._number;
-// }
-
-// /** @export */
-// AsYouType.prototype.number = function( )
-// {
-// 	return this._number;
-// }
-
-// /** @export */
-// AsYouType.prototype.removeChar = function( )
-// {
-// 	if ( this._rawInput === '' )
-// 		return this._number;
-
-// 	return this.reset( this._rawInput.slice( 0, this._rawInput.length - 1 ) );
-// }
-
-// /** @export */
-// AsYouType.prototype.reset = function( number /* = '' */ )
-// {
-// 	this._aytf.clear( );
-// 	this._rawInput = '';
-// 	this._number = '';
-// 	if ( number )
-// 		for ( var i = 0, n = number.length; i < n; ++i )
-// 			this.addChar( number.charAt( i ) );
-// 	return this._number;
-// }
-
-// /** @export */
-// AsYouType.prototype.getPhoneNumber = function( )
-// {
-// 	return new PhoneNumber( this._number, this._regionCode );
-// }

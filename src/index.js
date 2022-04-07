@@ -157,7 +157,7 @@ export function PhoneNumber( phoneNumber, regionCode )
 	}
 
 	this._json = {
-		'number'     : { },
+		// 'number'     : { },
 		'regionCode' : regionCode,
 		'valid'      : false,
 		'possible'   : false
@@ -170,7 +170,8 @@ export function PhoneNumber( phoneNumber, regionCode )
 	else
 	{
 		this._number = null;
-		this._json[ 'number' ][ 'input' ] = phoneNumber;
+		// this._json[ 'number' ][ 'input' ] = phoneNumber;
+    this._json[ 'input' ] = phoneNumber;
 
 		if ( !regionCode )
 		{
@@ -201,15 +202,24 @@ export function PhoneNumber( phoneNumber, regionCode )
 		}
 	}
 
-	this._json[ 'number' ][ 'international' ] =
+	// this._json[ 'number' ][ 'international' ] =
+  this._json[ 'international' ] =
 		phoneUtil.format( this._number, 1 );
-	this._json[ 'number' ][ 'national' ] =
+
+	// this._json[ 'number' ][ 'national' ] =
+  this._json[ 'national' ] =
 		phoneUtil.format( this._number, 2 );
-	this._json[ 'number' ][ 'e164' ] =
+
+	// this._json[ 'number' ][ 'e164' ] =
+  this._json[ 'e164' ] =
 		phoneUtil.format( this._number, 0 );
-	this._json[ 'number' ][ 'rfc3966' ] =
+
+	// this._json[ 'number' ][ 'rfc3966' ] =
+  this._json[ 'rfc3966' ] =
 		phoneUtil.format( this._number, 3 );
-	this._json[ 'number' ][ 'significant' ] =
+
+	// this._json[ 'number' ][ 'significant' ] =
+  this._json[ 'significant' ] =
 		phoneUtil.getNationalSignificantNumber( this._number );
 
 	this._json[ 'canBeInternationallyDialled' ] =
@@ -233,7 +243,6 @@ PhoneNumber.getCountryCodeForRegionCode = function( regionCode )
 PhoneNumber.getRegionCodeForCountryCode = function( countryCode )
 {
 	return phoneUtil.getRegionCodeForCountryCode( countryCode );
-	// return regionCode;
 }
 
 function uniq( arr )
@@ -274,18 +283,15 @@ PhoneNumber.getExample = function( regionCode, type /* = null */ )
 }
 
 /** @export */
-// PhoneNumber.getAsYouType = function( regionCode )
-// {
-// 	return new AsYouType( regionCode );
-// } // redundant
-
 /** @export */
 PhoneNumber.prototype.toJSON = function( )
 {
-  const tempNumberObject = this._json[ 'number' ];
-  delete this._json[ 'number' ];
+  // const tempNumberObject = this._json[ 'number' ];
+  // delete this._json[ 'number' ];
 
-	return Object.assign(tempNumberObject, this._json);
+	// return Object.assign(tempNumberObject, this._json);
+
+  return this._json;
 }
 
 /** @export */
@@ -335,7 +341,8 @@ PhoneNumber.prototype.getNumber = function( type /* = e164 */ )
 {
 	type = type == null ? 'e164' : type;
 
-	return this._json[ 'number' ][ type ];
+	// return this._json[ 'number' ][ type ];
+  return this._json[ type ];
 }
 
 /** @export */

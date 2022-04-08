@@ -169,7 +169,6 @@ export function PhoneNumber( phoneNumber, regionCode )
 	else
 	{
 		this._number = null;
-    this._json[ 'input' ] = phoneNumber;
 
 		if ( !regionCode )
 		{

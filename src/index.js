@@ -271,7 +271,8 @@ PhoneNumber.prototype.toJSON = function( )
 /** @export */
 PhoneNumber.prototype.formatPhoneNumber = function(number)
 {
-  return number.replace(/[~`!@#$%^&*={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
+  if (typeof number !== 'string') return number;
+	return number.replace(/[~`!@#$%^&*={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
 }
 
 /** @export */

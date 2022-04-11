@@ -118,7 +118,6 @@ export function PhoneNumber( phoneNumber, regionCode )
 		return new PhoneNumber( phoneNumber, regionCode );
 
 	var self = this;
-
 	var isInternal =
 		typeof phoneNumber === 'string'
 		? false
@@ -168,6 +167,7 @@ export function PhoneNumber( phoneNumber, regionCode )
 	}
 	else
 	{
+    this._json[ 'input' ] = phoneNumber;
 		this._number = null;
 
 		if ( !regionCode )
@@ -266,6 +266,12 @@ PhoneNumber.getExample = function( regionCode, type /* = null */ )
 PhoneNumber.prototype.toJSON = function( )
 {
   return this._json;
+}
+
+/** @export */
+PhoneNumber.prototype.formatPhoneNumber = function(number)
+{
+  return number.replace(/[~`!@#$%^&*={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
 }
 
 /** @export */

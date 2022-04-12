@@ -1,11 +1,11 @@
 // goog.require('i18n.phonenumbers.AsYouTypeFormatter');
-// goog.require('i18n.phonenumbers.PhoneNumberFormat');
+goog.require('i18n.phonenumbers.PhoneNumberFormat');
 goog.require('i18n.phonenumbers.PhoneNumberType');
 goog.require('i18n.phonenumbers.PhoneNumberUtil');
 goog.require('i18n.phonenumbers.PhoneNumberUtil.ValidationResult');
 
 const PhoneNumberType = i18n.phonenumbers.PhoneNumberType;
-// const PhoneNumberFormat = i18n.phonenumbers.PhoneNumberFormat;
+const PhoneNumberFormat = i18n.phonenumbers.PhoneNumberFormat;
 const ValidationResult = i18n.phonenumbers.PhoneNumberUtil.ValidationResult;
 // const AsYouTypeFormatter = i18n.phonenumbers.AsYouTypeFormatter;
 const PhoneNumberUtil = i18n.phonenumbers.PhoneNumberUtil;
@@ -114,10 +114,12 @@ function extractRegionCode( phoneNumber )
  */
 export function PhoneNumber( phoneNumber, regionCode )
 {
+	if (!regionCode)
+		phoneNumber = formatPhoneNumber(phoneNumber);
+	
 	if ( !( this instanceof PhoneNumber ) )
 		return new PhoneNumber( phoneNumber, regionCode );
 
-	var self = this;
 	var isInternal =
 		typeof phoneNumber === 'string'
 		? false
@@ -199,19 +201,17 @@ export function PhoneNumber( phoneNumber, regionCode )
 		}
 	}
 
-  const formattedPhoneNumber = formatPhoneNumber(this._number);
+  this._json[ 'international' ] = phoneUtil.format( this._number, PhoneNumberFormat.INTERNATIONAL );
+  this._json[ 'national' ] = phoneUtil.format( this._number, PhoneNumberFormat.NATIONAL );
+  this._json[ 'e164' ] = phoneUtil.format( this._number, PhoneNumberFormat.E164 );
+  this._json[ 'rfc3966' ] = phoneUtil.format( this._number, PhoneNumberFormat.RFC3966 );
+  this._json[ 'significant' ] = phoneUtil.getNationalSignificantNumber( this._number );
 
-  this._json[ 'international' ] = phoneUtil.format( formattedPhoneNumber, 1 );
-  this._json[ 'national' ] = phoneUtil.format( formattedPhoneNumber, 2 );
-  this._json[ 'e164' ] = phoneUtil.format( formattedPhoneNumber, 0 );
-  this._json[ 'rfc3966' ] = phoneUtil.format( formattedPhoneNumber, 3 );
-  this._json[ 'significant' ] = phoneUtil.getNationalSignificantNumber( formattedPhoneNumber );
-
-	this._json[ 'canBeInternationallyDialled' ] = phoneUtil.canBeInternationallyDialled( formattedPhoneNumber );
-	this._json[ 'possible' ] = phoneUtil.isPossibleNumber( formattedPhoneNumber );
-	this._json[ 'valid' ] = phoneUtil.isValidNumber( formattedPhoneNumber );
-	this._json[ 'type' ] = getNumberType( formattedPhoneNumber );
-	this._json[ 'possibility' ] = getValidationResult( formattedPhoneNumber );
+	this._json[ 'canBeInternationallyDialled' ] = phoneUtil.canBeInternationallyDialled( this._number );
+	this._json[ 'possible' ] = phoneUtil.isPossibleNumber( this._number );
+	this._json[ 'valid' ] = phoneUtil.isValidNumber( this._number );
+	this._json[ 'type' ] = getNumberType( this._number );
+	this._json[ 'possibility' ] = getValidationResult( this._number );
 }
 
 /** @export */

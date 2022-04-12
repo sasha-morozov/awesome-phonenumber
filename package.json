@@ -1,12 +1,11 @@
 {
-  "name": "awesome-phonenumber",
+  "name": "phonenumber-interpreter",
   "description": "Google's libphonenumber pre-compiled with the closure compiler",
   "license": "MIT",
-  "version": "0.0.0-development",
-  "author": "Gustaf Räntilä <g.rantila@gmail.com>",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grantila/awesome-phonenumber.git"
+    "url": "https://gitlab.com/onereach/platform/phonenumber-interpreter"
   },
   "engines": {
     "node": ">=12"

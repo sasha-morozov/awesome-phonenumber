@@ -199,17 +199,19 @@ export function PhoneNumber( phoneNumber, regionCode )
 		}
 	}
 
-  this._json[ 'international' ] = phoneUtil.format( this._number, 1 );
-  this._json[ 'national' ] = phoneUtil.format( this._number, 2 );
-  this._json[ 'e164' ] = phoneUtil.format( this._number, 0 );
-  this._json[ 'rfc3966' ] = phoneUtil.format( this._number, 3 );
-  this._json[ 'significant' ] = phoneUtil.getNationalSignificantNumber( this._number );
+  const formattedPhoneNumber = formatPhoneNumber(this._number);
 
-	this._json[ 'canBeInternationallyDialled' ] = phoneUtil.canBeInternationallyDialled( this._number );
-	this._json[ 'possible' ] = phoneUtil.isPossibleNumber( this._number );
-	this._json[ 'valid' ] = phoneUtil.isValidNumber( this._number );
-	this._json[ 'type' ] = getNumberType( self._number );
-	this._json[ 'possibility' ] = getValidationResult( self._number );
+  this._json[ 'international' ] = phoneUtil.format( formattedPhoneNumber, 1 );
+  this._json[ 'national' ] = phoneUtil.format( formattedPhoneNumber, 2 );
+  this._json[ 'e164' ] = phoneUtil.format( formattedPhoneNumber, 0 );
+  this._json[ 'rfc3966' ] = phoneUtil.format( formattedPhoneNumber, 3 );
+  this._json[ 'significant' ] = phoneUtil.getNationalSignificantNumber( formattedPhoneNumber );
+
+	this._json[ 'canBeInternationallyDialled' ] = phoneUtil.canBeInternationallyDialled( formattedPhoneNumber );
+	this._json[ 'possible' ] = phoneUtil.isPossibleNumber( formattedPhoneNumber );
+	this._json[ 'valid' ] = phoneUtil.isValidNumber( formattedPhoneNumber );
+	this._json[ 'type' ] = getNumberType( formattedPhoneNumber );
+	this._json[ 'possibility' ] = getValidationResult( formattedPhoneNumber );
 }
 
 /** @export */
@@ -234,6 +236,23 @@ function uniq( arr )
 		lookup[ elem ] = 1;
 		return true;
 	} );
+}
+
+function formatPhoneNumber (number) {
+  // '+1' is a default US & CA phone codes.
+  const modifiedPhoneNumber = number.trim()
+
+  if (modifiedPhoneNumber.charAt(0) === "+") {
+    return modifiedPhoneNumber
+  };
+
+  if (modifiedPhoneNumber.charAt(0) !== '+' && modifiedPhoneNumber.charAt(0) !== '1') {
+    return '+1'.concat(modifiedPhoneNumber)
+  } else if (modifiedPhoneNumber.charAt !== '+' && modifiedPhoneNumber.charAt(0) === '1') {
+    return '+'.concat(modifiedPhoneNumber)
+  } else {
+    return modifiedPhoneNumber
+  }
 }
 
 /** @export */
@@ -266,13 +285,6 @@ PhoneNumber.getExample = function( regionCode, type /* = null */ )
 PhoneNumber.prototype.toJSON = function( )
 {
   return this._json;
-}
-
-/** @export */
-PhoneNumber.prototype.formatPhoneNumber = function(number)
-{
-  if (typeof number !== 'string') return number;
-	return number.replace(/[~`!@#$%^&*={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
 }
 
 /** @export */

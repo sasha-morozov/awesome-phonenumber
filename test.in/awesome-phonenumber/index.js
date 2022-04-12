@@ -7,20 +7,21 @@ const PhoneNumber = require( '../../' );
 
 describe( 'general', function( ) {
 	it( 'should be able to parse a phone number', function( ) {
-		var pn = new PhoneNumber( '0707123456', 'SE' );
+		var pn = new PhoneNumber( '3034567779' );
 		expect( pn.isValid( ) ).to.be.true;
 		expect( pn.isPossible( ) ).to.be.true;
 		expect( pn.isMobile( ) ).to.be.true;
 		expect( pn.canBeInternationallyDialled( ) ).to.equal( true );
-    expect(pn.getType()).to.equal('mobile');
+    expect(pn.getType()).to.equal('fixed-line-or-mobile');
 		expect( pn.toJSON( ).canBeInternationallyDialled ).to.equal( true );
-    expect( pn.toJSON().e164).to.equal('+46707123456');
-    expect( pn.toJSON().international).to.equal('+46 70 712 34 56');
-    expect( pn.toJSON().national).to.equal('070-712 34 56');
-    expect( pn.toJSON().rfc3966).to.equal('tel:+46-70-712-34-56');
-    expect( pn.toJSON().significant).to.equal('707123456');
-    expect(pn.getNumber()).to.equal('+46707123456');
-    expect( pn.getNumber( 'significant' ) ).to.equal( '707123456' );
+    expect( pn.toJSON().e164).to.equal('+13034567779')
+    expect( pn.toJSON().international).to.equal('+1 303-456-7779');
+    expect( pn.toJSON().national).to.equal('(303) 456-7779');
+    expect( pn.toJSON().rfc3966).to.equal('tel:+1-303-456-7779');
+    expect( pn.toJSON().significant).to.equal('3034567779');
+    expect(pn.getNumber()).to.equal('+13034567779');
+    expect( pn.getNumber( 'significant' ) ).to.equal( '3034567779' );
+    expect(pn.getRegionCode()).to.equal('US')
 	} );
 
 	it( 'should be able to create an example phone number', function( ) {

@@ -114,6 +114,8 @@ function extractRegionCode( phoneNumber )
  */
 export function PhoneNumber( phoneNumber, regionCode )
 {
+  const initialPhoneInput = phoneNumber;
+
 	if (!regionCode)
 		phoneNumber = formatPhoneNumber(phoneNumber);
 	
@@ -169,7 +171,7 @@ export function PhoneNumber( phoneNumber, regionCode )
 	}
 	else
 	{
-    this._json[ 'input' ] = phoneNumber;
+    this._json[ 'input' ] = initialPhoneInput;
 		this._number = null;
 
 		if ( !regionCode )

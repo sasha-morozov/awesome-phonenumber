@@ -241,7 +241,7 @@ function uniq( arr )
 function formatPhoneNumber (number) {
 	if (typeof number !== 'string') return number;
 
-  // '+1' is a default US & CA phone codes.
+  // '+1' is a default US & CA country phone codes.
   const modifiedPhoneNumber = number.trim()
 
   if (modifiedPhoneNumber.charAt(0) === "+") {
@@ -250,7 +250,7 @@ function formatPhoneNumber (number) {
 
   if (modifiedPhoneNumber.charAt(0) !== '+' && modifiedPhoneNumber.charAt(0) !== '1') {
     return '+1'.concat(modifiedPhoneNumber)
-  } else if (modifiedPhoneNumber.charAt !== '+' && modifiedPhoneNumber.charAt(0) === '1') {
+  } else if (modifiedPhoneNumber.charAt(0) === '1') {
     return '+'.concat(modifiedPhoneNumber)
   } else {
     return modifiedPhoneNumber

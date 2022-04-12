@@ -239,6 +239,8 @@ function uniq( arr )
 }
 
 function formatPhoneNumber (number) {
+	if (typeof number !== 'string') return number;
+
   // '+1' is a default US & CA phone codes.
   const modifiedPhoneNumber = number.trim()
 
